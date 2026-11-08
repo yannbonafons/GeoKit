@@ -7,14 +7,18 @@ import SwiftUI
 public struct CountryPicker: View {
     @Binding private var selection: Country?
     private let showsDialCode: Bool
+    /// The candidate countries, sorted by localized name once at init instead of on every body evaluation.
+    private let sortedCountries: [Country]
     @State private var searchText = ""
     @Environment(\.dismiss) private var dismiss
 
     /// - Parameters:
     ///   - selection: The selected country. Tapping a row sets this and dismisses the picker.
+    ///   - countries: The countries to list. Defaults to `Country.allCases`.
     ///   - showsDialCode: Whether to show each country's phone dial code (e.g. `"+33"`) alongside its name.
-    public init(selection: Binding<Country?>, showsDialCode: Bool = false) {
+    public init(selection: Binding<Country?>, countries: [Country] = Country.allCases, showsDialCode: Bool = false) {
         self._selection = selection
+        self.sortedCountries = countries.sorted { $0.localizedName < $1.localizedName }
         self.showsDialCode = showsDialCode
     }
 
@@ -45,16 +49,13 @@ public struct CountryPicker: View {
                     .foregroundStyle(.tint)
             }
         }
+        .contentShape(Rectangle())
     }
-
-    /// Every country sorted by its localized name, computed once per locale instead of on every
-    /// body evaluation.
-    private static let sortedCountries = Country.allCases.sorted { $0.localizedName < $1.localizedName }
 
     private var filteredCountries: [Country] {
         guard !searchText.isEmpty else {
-            return CountryPicker.sortedCountries
+            return sortedCountries
         }
-        return CountryPicker.sortedCountries.filter { $0.localizedName.localizedCaseInsensitiveContains(searchText) }
+        return sortedCountries.filter { $0.localizedName.localizedCaseInsensitiveContains(searchText) }
     }
 }
