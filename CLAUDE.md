@@ -1,13 +1,19 @@
 # GeoKit
 
-Intro
+The aim of this package is to handle country, currency, address, phone number and apply all ISO validation rules
 
 ## Project structure
 
 ```
-Sources/GeoKit/              # Library source code
-Tests/GeoKitTests/         # Unit tests
-Example/GeoKitApp/         # Demo app (Xcode project via project.yml)
+Sources/GeoKit/
+    Country/                # The `Country` enum and its identity/display accessors
+    Data/                   # Static ISO data tables (alpha-3/numeric, currency, address, subdivisions)
+    Phone/                  # PhoneRules, PhoneNumberValidator, PhoneNumberFormatter (backed by PhoneNumberKit)
+    Address/                # Address, AddressRules, Subdivision, AddressValidator
+    Currency/               # Currency
+    SwiftUI/                # CountryPicker, phoneNumberFormatting(text:country:) ViewModifier
+Tests/GeoKitTests/          # Unit tests (Swift Testing)
+Example/GeoKitApp/          # Demo app (Xcode project via project.yml)
 ```
 
 ## Stack
@@ -20,10 +26,27 @@ Example/GeoKitApp/         # Demo app (Xcode project via project.yml)
 - Default actor isolation: MainActor
 - Strict concurrency checking: Complete
 - SwiftLint via SPM build tool plugin
+- [PhoneNumberKit](https://github.com/PhoneNumberKit/PhoneNumberKit) for phone number parsing,
+  validation, and formatting — GeoKit doesn't duplicate phone numbering-plan data itself
 
-## Architecture
+### Data table conventions
 
-TBD
+- Country/currency/address/subdivision data lives in Swift dictionaries under `Sources/GeoKit/Data/`,
+  not JSON resources — the compiler checks the data and nothing is decoded at runtime.
+- Pure data accessors (on `Country`, `Currency`, `AddressRules`, `Subdivision`, `AddressValidator`)
+  are marked `nonisolated` so they can be used off the main actor, since the module's default actor
+  isolation is `MainActor`. Phone APIs stay MainActor-isolated because `PhoneNumberUtility` is a
+  shared, non-`Sendable` class.
+- Postcode patterns in `Country+AddressData.swift` match a *compacted* postcode (uppercased, with
+  whitespace and hyphens stripped) — see `AddressValidator.compact`.
+- Not every country has postcode or subdivision data yet; a country not listed in
+  `Country+AddressData.swift`'s `postcodeInfo` or `Subdivisions+Data.swift`'s `isoSubdivisions`
+  simply has no enforced format. Contributions adding more countries are welcome.
+
+## Rules
+
+After any implementation, update the CLAUDE.md et README.md if needed
+
 
 ### Access Control Convention
 
