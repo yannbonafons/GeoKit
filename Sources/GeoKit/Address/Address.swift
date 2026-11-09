@@ -2,7 +2,7 @@
 // GeoKit
 
 /// A postal address, ready to be checked with `AddressValidator`.
-public struct Address: Sendable, Codable, Hashable {
+public nonisolated struct Address: Sendable, Codable, Hashable {
     public var line1: String
     public var line2: String
     public var city: String
@@ -29,7 +29,7 @@ public struct Address: Sendable, Codable, Hashable {
 }
 
 /// A reason an `Address` failed validation.
-public enum AddressValidationError: Error, Sendable, Equatable {
+public nonisolated enum AddressValidationError: Error, Sendable, Equatable {
     case missingLine1
     case missingCity
     case missingPostcode

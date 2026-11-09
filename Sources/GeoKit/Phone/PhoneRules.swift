@@ -4,7 +4,7 @@
 import PhoneNumberKit
 
 /// The phone number formatting rules for a country.
-public struct PhoneRules: Sendable {
+public nonisolated struct PhoneRules: Sendable {
     /// The country calling code, e.g. `33` for France.
     public let dialCode: Int
 

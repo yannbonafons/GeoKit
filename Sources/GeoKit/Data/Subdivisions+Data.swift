@@ -5,7 +5,7 @@
 // Contributions adding more countries are welcome — see Country+AddressData.swift for how a
 // country's `subdivisionLabel` and `subdivisions` are wired together.
 
-extension Country {
+nonisolated extension Country {
     nonisolated static let isoSubdivisions: [Country: [Subdivision]] = [
         .us: usStates,
         .ca: caProvinces,

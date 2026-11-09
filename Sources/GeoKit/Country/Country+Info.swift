@@ -5,7 +5,7 @@ import Foundation
 
 // MARK: - Identity
 
-public extension Country {
+public nonisolated extension Country {
     /// The ISO 3166-1 alpha-2 code, e.g. `"FR"`.
     nonisolated var code: String { rawValue }
 
@@ -28,7 +28,7 @@ public extension Country {
 
 // MARK: - Display
 
-public extension Country {
+public nonisolated extension Country {
     /// The country's flag, built from Unicode regional indicator symbols.
     nonisolated var flag: String {
         let base: UInt32 = 0x1F1E6

@@ -4,7 +4,7 @@
 import Foundation
 
 /// Validates and normalizes postal addresses against each country's `AddressRules`.
-public enum AddressValidator {
+public nonisolated enum AddressValidator {
     /// Whether `postcode` matches `country`'s postcode format.
     ///
     /// Whitespace and hyphens are ignored, so `"sw1a 1aa"` and `"SW1A1AA"` are equivalent. An empty

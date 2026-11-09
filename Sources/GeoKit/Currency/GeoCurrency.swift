@@ -4,7 +4,7 @@
 import Foundation
 
 /// An ISO 4217 currency.
-public struct GeoCurrency: Sendable, Codable, Hashable, Identifiable {
+public nonisolated struct GeoCurrency: Sendable, Codable, Hashable, Identifiable {
     /// The ISO 4217 alphabetic code, e.g. `"EUR"`.
     public let code: String
 
