@@ -6,7 +6,7 @@
 // isPostcodeRequired: false)`, i.e. no format is enforced. Subdivision lists come from
 // `Country.isoSubdivisions` (see Subdivisions+Data.swift).
 
-public extension Country {
+public nonisolated extension Country {
     /// This country's address formatting and validation rules.
     nonisolated var addressRules: AddressRules {
         let info = Self.postcodeInfo[self]

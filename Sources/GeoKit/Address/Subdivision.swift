@@ -2,7 +2,7 @@
 // GeoKit
 
 /// A first-level country subdivision (state, province, region, …) identified by its ISO 3166-2 code.
-public struct Subdivision: Sendable, Codable, Hashable, Identifiable {
+public nonisolated struct Subdivision: Sendable, Codable, Hashable, Identifiable {
     /// The ISO 3166-2 code, e.g. `"US-CA"`.
     public let code: String
 
@@ -23,7 +23,7 @@ public struct Subdivision: Sendable, Codable, Hashable, Identifiable {
 }
 
 /// The kind of label used to present a country's subdivisions, e.g. "State" for the US, "Prefecture" for Japan.
-public enum SubdivisionLabel: String, Sendable, Codable, CaseIterable {
+public nonisolated enum SubdivisionLabel: String, Sendable, Codable, CaseIterable {
     case state
     case province
     case region

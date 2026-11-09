@@ -2,7 +2,7 @@
 // GeoKit
 
 /// The address formatting and validation rules for a country.
-public struct AddressRules: Sendable {
+public nonisolated struct AddressRules: Sendable {
     /// A regular expression matching a valid postcode once whitespace and hyphens are stripped, or `nil`
     /// if the country has no formal postcode system (e.g. the United Arab Emirates, Hong Kong).
     public let postcodePattern: String?

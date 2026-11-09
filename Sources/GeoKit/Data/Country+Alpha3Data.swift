@@ -3,7 +3,7 @@
 //
 // ISO 3166-1 alpha-3 and numeric codes for every `Country` case.
 
-public extension Country {
+public nonisolated extension Country {
     /// The ISO 3166-1 alpha-3 code, e.g. `"FRA"`.
     nonisolated var alpha3: String {
         Country.alpha3AndNumeric[self]?.0 ?? ""

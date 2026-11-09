@@ -4,7 +4,7 @@
 import PhoneNumberKit
 
 /// How a phone number should be displayed.
-public enum PhoneFormat: Sendable {
+public nonisolated enum PhoneFormat: Sendable {
     /// `+33612345678`
     case e164
     /// `+33 6 12 34 56 78`

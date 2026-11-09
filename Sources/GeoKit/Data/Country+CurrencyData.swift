@@ -5,7 +5,7 @@
 // population or economy (Antarctica, Bouvet Island, Heard & McDonald
 // Islands) resolve to an empty array.
 
-public extension Country {
+public nonisolated extension Country {
     /// The ISO 4217 currencies officially in use in this country.
     ///
     /// Most countries return a single currency. A few, like Panama, return more than one.

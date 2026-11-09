@@ -5,7 +5,7 @@
 ///
 /// `XK` (Kosovo) is also included even though it is only a user-assigned
 /// code, because it is in widespread use by other standards bodies.
-public enum Country: String, CaseIterable, Sendable, Codable, Identifiable, Hashable {
+public nonisolated enum Country: String, CaseIterable, Sendable, Codable, Identifiable, Hashable {
     case ad = "AD"
     case ae = "AE"
     case af = "AF"

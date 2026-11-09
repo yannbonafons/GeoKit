@@ -33,10 +33,13 @@ Example/GeoKitApp/          # Demo app (Xcode project via project.yml)
 
 - Country/currency/address/subdivision data lives in Swift dictionaries under `Sources/GeoKit/Data/`,
   not JSON resources — the compiler checks the data and nothing is decoded at runtime.
-- Pure data accessors (on `Country`, `Currency`, `AddressRules`, `Subdivision`, `AddressValidator`)
-  are marked `nonisolated` so they can be used off the main actor, since the module's default actor
-  isolation is `MainActor`. Phone APIs stay MainActor-isolated because `PhoneNumberUtility` is a
-  shared, non-`Sendable` class.
+- Pure data types (`Country`, `Address`, `AddressValidationError`, `AddressRules`, `Subdivision`,
+  `SubdivisionLabel`, `GeoCurrency`, `PhoneRules`, `PhoneFormat`, `AddressValidator`) and the
+  `Country` data extensions are marked `nonisolated` at the type/extension level, so they and their
+  conformances (`Codable`, `Hashable`…) can be used off the main actor, since the module's default
+  actor isolation is `MainActor`. Mark any new pure data type `nonisolated` too. Phone APIs
+  (`PhoneNumberFormatter`, `PhoneNumberValidator`, `Country.phoneRules`) and SwiftUI stay
+  MainActor-isolated because `PhoneNumberUtility` is a shared, non-`Sendable` class.
 - Postcode patterns in `Country+AddressData.swift` match a *compacted* postcode (uppercased, with
   whitespace and hyphens stripped) — see `AddressValidator.compact`.
 - Not every country has postcode or subdivision data yet; a country not listed in
