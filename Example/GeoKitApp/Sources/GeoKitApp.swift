@@ -31,7 +31,8 @@ struct ContentView: View {
             .navigationTitle("GeoKit")
             .sheet(isPresented: $isPickingCountry) {
                 NavigationStack {
-                    CountryPicker(selection: $country, showsDialCode: true)
+                    CountryPicker(selection: $country,
+                                  showsDialCode: false)
                         .navigationTitle("Country")
                         .navigationBarTitleDisplayMode(.inline)
                 }
@@ -77,6 +78,7 @@ struct ContentView: View {
             TextField("Address line 1", text: $line1)
             TextField("City", text: $city)
             TextField(selectedCountry.addressRules.postcodePlaceholder ?? "Postcode", text: $postcode)
+                .textInputAutocapitalization(.characters)
             if !postcode.isEmpty {
                 let isValid = AddressValidator.isValidPostcode(postcode, country: selectedCountry)
                 validityLabel(isValid: isValid, validText: "Valid postcode", invalidText: "Invalid postcode")

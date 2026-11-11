@@ -26,11 +26,13 @@ public nonisolated enum AddressValidator {
     /// countries GeoKit doesn't have a canonical format for.
     public nonisolated static func normalizedPostcode(_ postcode: String, country: Country) -> String {
         let compact = AddressValidator.compact(postcode)
-        guard let suffixLength = country.postcodeSuffixLength, compact.count > suffixLength else {
+        guard let grouping = country.postcodeGrouping,
+              compact.count > grouping.suffixLength,
+              grouping.totalLength == nil || grouping.totalLength == compact.count else {
             return compact
         }
-        let splitIndex = compact.index(compact.endIndex, offsetBy: -suffixLength)
-        return "\(compact[..<splitIndex])\(country.postcodeSeparator)\(compact[splitIndex...])"
+        let splitIndex = compact.index(compact.endIndex, offsetBy: -grouping.suffixLength)
+        return "\(compact[..<splitIndex])\(grouping.separator)\(compact[splitIndex...])"
     }
 
     /// Whether `code` is one of `country`'s subdivisions.
@@ -87,22 +89,20 @@ public nonisolated enum AddressValidator {
 // MARK: - Canonical separators
 
 private extension Country {
-    /// The number of trailing characters after the canonical separator in a normalized postcode,
-    /// or `nil` if this country has no canonical separator (either because it has no postcode system,
-    /// or because its postcode has no internal grouping, like France's `"75001"`).
-    nonisolated var postcodeSuffixLength: Int? {
+    /// Where the canonical separator goes in a normalized postcode: `suffixLength` trailing characters
+    /// follow `separator`. `totalLength` restricts the grouping to postcodes of exactly that length
+    /// (the US only hyphenates ZIP+4, not the 5-digit form). `nil` if this country has no canonical
+    /// separator (either because it has no postcode system, or because its postcode has no internal
+    /// grouping, like France's `"75001"`).
+    nonisolated var postcodeGrouping: (suffixLength: Int, separator: String, totalLength: Int?)? {
         switch self {
-        case .gb, .ca, .br, .pt, .pl: return 3
-        case .nl, .se: return 2
-        case .us, .jp: return 4
+        case .gb, .ca: return (3, " ", nil)
+        case .br, .pt, .pl: return (3, "-", nil)
+        case .nl, .se, .cz, .sk, .gr: return (2, " ", nil)
+        case .ie, .mt: return (4, " ", nil)
+        case .us: return (4, "-", 9)
+        case .jp: return (4, "-", 7)
         default: return nil
-        }
-    }
-
-    nonisolated var postcodeSeparator: String {
-        switch self {
-        case .us, .pl, .jp, .pt, .br: return "-"
-        default: return " "
         }
     }
 }

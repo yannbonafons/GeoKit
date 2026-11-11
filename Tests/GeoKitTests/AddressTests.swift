@@ -58,6 +58,9 @@ struct AddressTests {
             (Country.nl, "1234ab", "1234 AB"),
             (Country.us, "901234567", "90123-4567"),
             (Country.jp, "1000001", "100-0001"),
+            (Country.us, "90210", "90210"),
+            (Country.ie, "d02af30", "D02 AF30"),
+            (Country.cz, " 11000 ", "110 00"),
             (Country.fr, "75001", "75001")
         ]
     )
