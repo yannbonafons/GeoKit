@@ -76,6 +76,11 @@ AddressValidator.validate(address)        // []
 ```swift
 CountryPicker(selection: $country, showsDialCode: true)
 
+// Optional: color behind the list and row backgrounds
+CountryPicker(selection: $country,
+              backgroundColor: .gray.opacity(0.2),
+              rowBackgroundColor: .white)
+
 TextField("Phone", text: $phoneNumber)
     .phoneNumberFormatting(text: $phoneNumber, country: country)
 ```
